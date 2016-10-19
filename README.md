@@ -1,24 +1,8 @@
-# README
+# Sous-Chef
+## Overview
+Sous-Chef is an online recipe management system where users can sign up/in and make and share recipes.
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## Installation
+Be sure to have Ruby 2.2.3 or later as well as Rails 5.0 installed locally. These versions were used in the development of this application and any previous versions are not guaranteed to work.
 
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+`git clone` this repository, run `bundle install`, `rails s`, then navigate to `http://localhost:3000` to see the app running in a development environment.
