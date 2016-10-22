@@ -5,6 +5,8 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :trackable, :validatable,
          :omniauthable, omniauth_providers: [:twitter, :facebook]
 
+  has_many :recipes
+
    def self.from_omniauth(auth)
      p auth.info
      where(provider: auth.provider, uid: auth.uid).first_or_create do |user|

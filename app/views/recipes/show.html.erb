@@ -1,0 +1,19 @@
+
+<div class="margin">
+  <div class="card card-oultine-primary">
+
+    <div class="card-block">
+      <h3 class="card-title"><%= @recipe.title %></h3>
+
+      <p class="card-text">Serving Size: <%= @recipe.yield %></p>
+
+      <h4 class="card-title">Instructions</h4>
+      <p class="card-text"><%= @recipe.content %></p>
+
+    </div>
+    <div class="card-block">
+      <%= link_to "Edit", edit_user_recipe_path(current_user, @recipe), class: "card-link" %>
+      <%= link_to "Delete", user_recipe_path(current_user, @recipe), class: "card-link", method: 'delete' %>
+    </div>
+  </div>
+</div>

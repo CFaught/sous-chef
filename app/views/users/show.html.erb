@@ -1,3 +1,9 @@
 <h1>hello <%= @user.email %></h1>
+<%= link_to "Create a new Recipe", new_user_recipe_path(@user) %>
 
-<h3>Create and view your own recipes here..</h3>
+<h3>Your Recipes:</h3>
+<ul class="list-group">
+  <% @recipes.each do |recipe| %>
+    <li class="list-group-item"><%= link_to recipe.title, recipe_path(recipe) %></li>
+  <% end %>
+</ul>

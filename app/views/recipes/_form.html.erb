@@ -1,0 +1,25 @@
+<%= form_for@recipe do |f|%>
+  <div class="form-group">
+    <div class="field">
+    <%= f.label :title %>
+    <%= f.text_field :title, class: 'form-control' %><br />
+    </div>
+
+    <div class="field">
+    <%= f.label :yield %>
+    <%= f.text_field :yield, class: 'form-control' %><br />
+    </div>
+
+    <div class="field">
+    <%= f.label :content %><br />
+    <%= f.text_area :content, class: 'form-control' %><br />
+    </div>
+
+    <div class="field">
+      <%= f.hidden_field :user_id, :value => @user.id %>
+    </div>
+
+    <div class="actions"><%= f.submit 'Submit', class: 'btn btn-primary' %></div>
+  </div>
+
+<% end %>

@@ -32,9 +32,9 @@ gem 'bcrypt', '~> 3.1.7'
 
 # Bootstrap
 source 'https://rails-assets.org' do
-  gem 'rails-assets-bootstrap'
   gem 'rails-assets-tether', '>= 1.1.0'
 end
+gem 'bootstrap', '~> 4.0.0.alpha4'
 
 # Devise for user authentication
 gem 'devise'
