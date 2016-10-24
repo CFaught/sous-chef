@@ -7,13 +7,22 @@
 
       <p class="card-text">Serving Size: <%= @recipe.yield %></p>
 
+      <h4 class="card-title">Ingredients</h4>
+
+      <!-- in order to access the recipe_ingredients.quantity attribute we need to load the join table -->
+      <% @recipe.ingredients.each do |ingredient| %>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item"><%= ingredient.name %>, <%= ingredient.quantity %> </li>
+        </ul>
+      <% end %>
+
       <h4 class="card-title">Instructions</h4>
       <p class="card-text"><%= @recipe.content %></p>
 
     </div>
     <div class="card-block">
-      <%= link_to "Edit", edit_user_recipe_path(current_user, @recipe), class: "card-link" %>
-      <%= link_to "Delete", user_recipe_path(current_user, @recipe), class: "card-link", method: 'delete' %>
+      <%= link_to "Edit", edit_recipe_path(@recipe), class: "card-link" %>
+      <%= link_to "Delete", recipe_path(@recipe), class: "card-link", method: 'delete' %>
     </div>
   </div>
 </div>

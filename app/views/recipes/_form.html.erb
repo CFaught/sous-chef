@@ -1,24 +1,35 @@
-<%= form_for@recipe do |f|%>
+<%= form_for @recipe do |f|%>
   <div class="form-group">
     <div class="field">
-    <%= f.label :title %>
-    <%= f.text_field :title, class: 'form-control' %><br />
+      <%= f.label :title %>
+      <%= f.text_field :title, class: 'form-control' %><br />
     </div>
 
     <div class="field">
-    <%= f.label :yield %>
-    <%= f.text_field :yield, class: 'form-control' %><br />
+      <%= f.label :yield, "Serving Size" %>
+      <%= f.number_field :yield, class: 'form-control' %><br />
     </div>
 
     <div class="field">
-    <%= f.label :content %><br />
-    <%= f.text_area :content, class: 'form-control' %><br />
+      <%= f.label :content, "Instructions" %><br />
+      <%= f.text_area :content, class: 'form-control' %><br />
     </div>
 
-    <div class="field">
-      <%= f.hidden_field :user_id, :value => @user.id %>
-    </div>
+    <h3>Ingredients:</h3>
 
+    <%= f.fields_for :ingredients do |ing| %>
+      <div class="field">
+         <%= ing.label :name %>
+         <%= ing.text_field :name %>
+         <%= ing.label :quantity %>
+         <%= ing.text_field :quantity %>
+         <%= ing.check_box :_destroy %>
+         <%= ing.label :_destroy, 'delete' %>
+      </div>
+    <% end %>
+
+    <%= f.submit 'Add ingredient', :name => "add_ingredient" %>
+    <%= f.submit 'Delete checked ingredients', :name => "remove_ingredient" %>
     <div class="actions"><%= f.submit 'Submit', class: 'btn btn-primary' %></div>
   </div>
 

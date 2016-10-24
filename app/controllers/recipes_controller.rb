@@ -8,33 +8,61 @@ class RecipesController < ApplicationController
   end
 
   def new
-    @user = User.find(params[:user_id])
     @recipe = Recipe.new
+    @ingredients = @recipe.ingredients.build
   end
 
   def create
-    @recipe = Recipe.create(recipe_params)
-    redirect_to user_path(current_user)
+    # raise params.inspect
+    @recipe = Recipe.new(recipe_params)
+    if params[:add_ingredient]
+
+      @recipe.ingredients.build
+    else
+      if @recipe.save
+        flash[:notice] = "Recipe successfully created!"
+        redirect_to user_path(current_user) and return
+      end
+    end
+    render :new
   end
 
   def edit
-    @user = User.find(params[:user_id])
     @recipe = Recipe.find_by(id: params[:id])
   end
 
   def update
-    @recipe = Recipe.update(recipe_params)
-    redirect_to user_path(current_user)
+    # raise params.inspect
+    @recipe = Recipe.find(params[:id])
+    if params[:add_ingredient]
+      unless params[:recipe][:ingredients_attributes].blank?
+    	  params[:recipe][:ingredients_attributes].each do |k, v|
+    	    @recipe.ingredients.build unless v.has_key?(:id)
+    	  end
+    	end
+      @recipe.ingredients.build
+    elsif params[:remove_ingredient]
+      removed_ingredients = params[:recipe][:ingredients_attributes].collect { |i, att| att[:id] if (att[:id] && att[:_destroy].to_i == 1) }
+      Ingredient.delete(removed_ingredients)
+      flash[:notice] = "Ingredients removed."
+    else
+      if @recipe.update_attributes(recipe_params)
+        flash[:notice] = "Recipe successfully updated!"
+        redirect_to user_path(current_user) and return
+      end
+    end
+    render :edit
   end
 
   def destroy
     @recipe = Recipe.find_by(id: params[:id])
     @recipe.destroy
+    flash[:notice] = "Successfully deleted recipe."
     redirect_to user_path(current_user)
   end
 
   private
   def recipe_params
-    params.require(:recipe).permit(:title, :yield, :content, :user_id)
+    params.require(:recipe).permit(:title, :yield, :content, :user_id, ingredients_attributes: [:id, :name, :quantity])
   end
 end
