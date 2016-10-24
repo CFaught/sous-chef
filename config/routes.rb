@@ -8,5 +8,6 @@ Rails.application.routes.draw do
 
   resources :recipes do
     resources :ingredients
+    put :favorite, on: :member
   end
 end

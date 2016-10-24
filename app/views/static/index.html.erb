@@ -2,6 +2,21 @@
 
 <ul class="list-group">
   <% @recipes.each do |recipe| %>
-    <li class="list-group-item"><%= link_to recipe.title, recipe_path(recipe) %></li>
+    <div class="row-fluid">
+      <li class="list-group-item" style="height:50px;">
+        <div class="col-md-8">
+          <%= link_to recipe.title, recipe_path(recipe) %>
+        </div>
+        <% if current_user.favorites.include?(recipe) %>
+          <div class="col-md-4">
+            <%= link_to "Unfavorite", favorite_recipe_path(recipe, type: "unfavorite"), method: :put, class: "text-right" %>
+          </div>
+        <% else %>
+          <div class="col-md-4">
+            <%= link_to "Favorite", favorite_recipe_path(recipe, type: "favorite"), method: :put, class: "text-right" %>
+          </div>
+        <% end %>
+      </li>
+    </div>
   <% end %>
 </ul>

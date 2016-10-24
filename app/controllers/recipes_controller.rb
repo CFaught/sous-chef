@@ -61,6 +61,24 @@ class RecipesController < ApplicationController
     redirect_to user_path(current_user)
   end
 
+  def favorite
+    @recipe = Recipe.find(params[:id])
+    type = params[:type]
+    if type == "favorite"
+      current_user.favorites << @recipe
+      # current_user.favorites.save
+      redirect_to :back, notice: "You favorited #{@recipe.title}"
+
+    elsif type == "unfavorite"
+      current_user.favorites.delete(@recipe)
+      redirect_to :back, notice: "Unfavorited #{@recipe.title}"
+
+    else
+      # Type missing, nothing happens
+      redirect_to :back, notice: "Nothing happened."
+    end
+  end
+
   private
   def recipe_params
     params.require(:recipe).permit(:title, :yield, :content, :user_id, ingredients_attributes: [:id, :name, :quantity])
