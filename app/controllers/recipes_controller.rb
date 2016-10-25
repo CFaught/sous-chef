@@ -20,6 +20,7 @@ class RecipesController < ApplicationController
       @recipe.ingredients.build
     else
       if @recipe.save
+        current_user.favorites << @recipe
         flash[:notice] = "Recipe successfully created!"
         redirect_to user_path(current_user) and return
       end

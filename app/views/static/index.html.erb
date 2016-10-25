@@ -1,5 +1,10 @@
 <h1>Welcome!</h1>
 
+<%= form_tag("/", method: "get") do %>
+  <%= select_tag "ingredient", options_from_collection_for_select(@ingredients, "id", "name"), include_blank: true %>
+  <%= submit_tag "Filter" %>
+<% end %>
+
 <ul class="list-group">
   <% @recipes.each do |recipe| %>
     <div class="row-fluid">

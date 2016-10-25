@@ -6,4 +6,10 @@ class Recipe < ApplicationRecord
   accepts_nested_attributes_for :ingredients, :reject_if => lambda { |a| a[:name].blank? }, :allow_destroy => true
   validates_presence_of :title
   validates_presence_of :content
+
+  def self.filter_by_ingredients(ingredient)
+    Recipe.order('recipes.title').all.to_a.select do |recipe|
+      recipe.ingredients.to_a.any? { |ing| ing.name.downcase.strip == ingredient.name.downcase.strip }
+    end
+  end
 end
