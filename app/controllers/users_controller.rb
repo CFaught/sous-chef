@@ -4,4 +4,8 @@ class UsersController < ApplicationController
     @recipes = @user.favorites
     redirect_to root_path, alert: "Access denied." unless current_user == @user && !@user.nil?
   end
+
+  def shopping
+    @items = current_user.items
+  end
 end

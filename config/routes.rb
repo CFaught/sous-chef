@@ -10,4 +10,8 @@ Rails.application.routes.draw do
     resources :ingredients
     put :favorite, on: :member
   end
+
+  get "users/:id/shopping", to: 'users#shopping', as: :user_shopping_list
+  get "ingredients/:id/delete_item", to: 'ingredients#delete_item', as: :destroy_user_item
+  get "recipes/:id/add_to_shopping_list", to: 'recipes#shopping', as: :recipe_add_to_shopping_list
 end

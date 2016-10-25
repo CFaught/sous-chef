@@ -4,12 +4,14 @@
 
     <div class="card-block">
       <h3 class="card-title"><%= @recipe.title %></h3>
+      <% if user_signed_in? -%>
+        <p class="card-text"><%= link_to "Add to shopping list", recipe_add_to_shopping_list_path(@recipe) %></p>
+      <% end %>
 
       <p class="card-text">Serving Size: <%= @recipe.yield %></p>
 
       <h4 class="card-title">Ingredients</h4>
 
-      <!-- in order to access the recipe_ingredients.quantity attribute we need to load the join table -->
       <% @recipe.ingredients.each do |ingredient| %>
         <ul class="list-group list-group-flush">
           <li class="list-group-item"><%= ingredient.name %>, <%= ingredient.quantity %> </li>
@@ -21,8 +23,10 @@
 
     </div>
     <div class="card-block">
-      <%= link_to "Edit", edit_recipe_path(@recipe), class: "card-link" %>
-      <%= link_to "Delete", recipe_path(@recipe), class: "card-link", method: 'delete' %>
+      <% if user_signed_in? -%>
+        <%= link_to "Edit", edit_recipe_path(@recipe), class: "card-link" %>
+        <%= link_to "Delete", recipe_path(@recipe), class: "card-link", method: 'delete' %>
+      <% end %>
     </div>
   </div>
 </div>

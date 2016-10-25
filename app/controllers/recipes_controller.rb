@@ -79,6 +79,16 @@ class RecipesController < ApplicationController
     end
   end
 
+  def shopping
+    recipe = Recipe.find(params[:id])
+    user = current_user
+    recipe.ingredients.each do |ingredient|
+      user.items << ingredient
+    end
+    user.save
+    redirect_to user_shopping_list_path(current_user)
+  end
+
   private
   def recipe_params
     params.require(:recipe).permit(:title, :yield, :content, :user_id, ingredients_attributes: [:id, :name, :quantity])

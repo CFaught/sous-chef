@@ -3,6 +3,8 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable and :omniauthable
   has_many :user_recipes
   has_many :favorites, through: :user_recipes, source: :recipe
+  has_many :shopping_lists
+  has_many :items, through: :shopping_lists, source: :ingredient
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable,
          :omniauthable, omniauth_providers: [:twitter, :facebook]
