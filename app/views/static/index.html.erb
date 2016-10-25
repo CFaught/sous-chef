@@ -1,4 +1,5 @@
 <h1>Welcome!</h1>
+<h2>Browse Recipes:</h2>
 
 <%= form_tag("/", method: "get") do %>
   <%= select_tag "ingredient", options_from_collection_for_select(@ingredients, "id", "name"), include_blank: true %>
@@ -12,14 +13,16 @@
         <div class="col-md-8">
           <%= link_to recipe.title, recipe_path(recipe) %>
         </div>
-        <% if current_user.favorites.include?(recipe) %>
-          <div class="col-md-4">
-            <%= link_to "Unfavorite", favorite_recipe_path(recipe, type: "unfavorite"), method: :put, class: "text-right" %>
-          </div>
-        <% else %>
-          <div class="col-md-4">
-            <%= link_to "Favorite", favorite_recipe_path(recipe, type: "favorite"), method: :put, class: "text-right" %>
-          </div>
+        <% if user_signed_in? %>
+          <% if current_user.favorites.include?(recipe) %>
+            <div class="col-md-4">
+              <%= link_to "Unfavorite", favorite_recipe_path(recipe, type: "unfavorite"), method: :put, class: "text-right" %>
+            </div>
+          <% else %>
+            <div class="col-md-4">
+              <%= link_to "Favorite", favorite_recipe_path(recipe, type: "favorite"), method: :put, class: "text-right" %>
+            </div>
+          <% end %>
         <% end %>
       </li>
     </div>
