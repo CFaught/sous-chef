@@ -1,10 +1,18 @@
 class RecipesController < ApplicationController
   def index
-
+    @recipes = Recipe.all
+    respond_to do |f|
+      f.html { render :index }
+      f.json { render json: @recipes }
+    end
   end
 
   def show
     @recipe = Recipe.find_by(id: params[:id])
+    respond_to do |f|
+      f.html { render :show }
+      f.json { render json: @recipe }
+    end
   end
 
   def new
