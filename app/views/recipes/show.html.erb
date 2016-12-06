@@ -3,23 +3,20 @@
   <div class="card card-oultine-primary">
 
     <div class="card-block">
-      <h3 class="card-title"><%= @recipe.title %></h3>
+      <h3 class="card-title"></h3>
       <% if user_signed_in? -%>
         <p class="card-text"><%= link_to "Add to shopping list", recipe_add_to_shopping_list_path(@recipe) %></p>
       <% end %>
 
-      <p class="card-text">Serving Size: <%= @recipe.yield %></p>
+      <p class="card-text" id="yield"></p>
 
       <h4 class="card-title">Ingredients</h4>
 
-      <% @recipe.ingredients.each do |ingredient| %>
-        <ul class="list-group list-group-flush">
-          <li class="list-group-item"><%= ingredient.name %>, <%= ingredient.quantity %> </li>
-        </ul>
-      <% end %>
+      <ul class="list-group list-group-flush">
+      </ul>
 
       <h4 class="card-title">Instructions</h4>
-      <p class="card-text"><%= @recipe.content %></p>
+      <p class="card-text" id="content"></p>
 
     </div>
     <div class="card-block">
@@ -30,3 +27,24 @@
     </div>
   </div>
 </div>
+
+<%= javascript_tag do %>
+  var id = <%= @recipe.id %>;
+<% end %>
+
+<script type="text/javascript">
+  $(document).ready(function() {
+
+    $.get('/recipes/' + id + '.json').done(function(data) {
+      var recipe_ingredients = data["ingredients"];
+      $('.card-title').text(data["title"]);
+      $('#yield').text("Serving Size: " + data["yield"]);
+
+      for (ingredient of recipe_ingredients) {
+        $('ul.list-group').append('<li class="list-group-item">' + ingredient["name"] + ', ' + ingredient["quantity"] + '</li>');
+      }
+
+      $('#content').text(data["content"]);
+    });
+  }); // show recipe ajax
+</script>

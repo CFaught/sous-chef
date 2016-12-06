@@ -26,6 +26,7 @@
 
 
     $.get('/recipes.json').done(function(data) {
+      header = '';
       for (var index in data) {
         header += '<div class="row-fluid">' +
                        '<li class="list-group-item" style="height:50px;">' +
