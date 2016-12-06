@@ -7,24 +7,49 @@
 <% end %>
 
 <ul class="list-group">
-  <% @recipes.each do |recipe| %>
-    <div class="row-fluid">
-      <li class="list-group-item" style="height:50px;">
-        <div class="col-md-8">
-          <%= link_to recipe.title, recipe_path(recipe) %>
-        </div>
-        <% if user_signed_in? %>
-          <% if current_user.favorites.include?(recipe) %>
-            <div class="col-md-4">
-              <%= link_to "Unfavorite", favorite_recipe_path(recipe, type: "unfavorite"), method: :put, class: "text-right" %>
-            </div>
-          <% else %>
-            <div class="col-md-4">
-              <%= link_to "Favorite", favorite_recipe_path(recipe, type: "favorite"), method: :put, class: "text-right" %>
-            </div>
-          <% end %>
-        <% end %>
-      </li>
-    </div>
-  <% end %>
+
 </ul>
+<%= javascript_tag do %>
+  var currentUserId = <%= current_user.id %>;
+<% end %>
+<script type="text/javascript">
+  $(document).ready(function() {
+    var currentUser, header;
+    var favoriteIds = [];
+
+    $.get('/users/' + currentUserId + '/favorites_data').done(function(response) {
+      currentUser = response;
+      for ( element of currentUser.favorites ) {
+       favoriteIds.push(element.id);
+      }
+    }); // end current_user favorites ajax
+
+
+    $.get('/recipes.json').done(function(data) {
+      for (var index in data) {
+        header += '<div class="row-fluid">' +
+                       '<li class="list-group-item" style="height:50px;">' +
+                          '<div class="col-md-8">' +
+                            '<a href="/recipes/' + data[index].id + '" id="' + data[index].id + '" class="js-recipe-show">' + data[index].title + '</a>' +
+                          '</div>'
+        if (currentUser) {
+          if (favoriteIds.includes(data[index].id)) {
+            header  +=  '<div class="col-md-4">' +
+                          '<a href="/recipes/' + data[index].id + '/unfavorite">' + "Unfavorite" + '</a>' +
+                        '</div>'
+          } else {
+            header  +=  '<div class="col-md-4">' +
+                          '<a href="/recipes/' + data[index].id + '/favorite">' + "Favorite" + '</a>' +
+                        '</div>'
+          }
+        }
+      }
+
+      $('.list-group').html(
+            header +
+          '</li>' +
+        '</div>'
+      )
+    }); // end recipes index ajax
+  });
+</script>

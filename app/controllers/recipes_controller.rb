@@ -73,19 +73,25 @@ class RecipesController < ApplicationController
   def favorite
     @recipe = Recipe.find(params[:id])
     type = params[:type]
-    if type == "favorite"
+    # if type == "favorite"
       current_user.favorites << @recipe
       # current_user.favorites.save
       redirect_to :back, notice: "You favorited #{@recipe.title}"
 
-    elsif type == "unfavorite"
-      current_user.favorites.delete(@recipe)
-      redirect_to :back, notice: "Unfavorited #{@recipe.title}"
+    # elsif type == "unfavorite"
+    #   current_user.favorites.delete(@recipe)
+    #   redirect_to :back, notice: "Unfavorited #{@recipe.title}"
+    #
+    # else
+    #   # Type missing, nothing happens
+    #   redirect_to :back, notice: "Nothing happened."
+    # end
+  end
 
-    else
-      # Type missing, nothing happens
-      redirect_to :back, notice: "Nothing happened."
-    end
+  def unfavorite
+    @recipe = Recipe.find(params[:id])
+    current_user.favorites.delete(@recipe)
+    redirect_to :back, notice: "Unfavorited #{@recipe.title}"
   end
 
   def shopping
