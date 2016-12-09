@@ -19,4 +19,6 @@ Rails.application.routes.draw do
 
   get "recipes/:id/favorite", to: 'recipes#favorite'
   get "recipes/:id/unfavorite", to: 'recipes#unfavorite'
+
+  get "ingredients/:id", to: 'ingredients#show'
 end

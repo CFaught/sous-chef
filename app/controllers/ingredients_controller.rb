@@ -3,6 +3,10 @@ class IngredientsController < ApplicationController
   end
 
   def show
+    @ingredient = Ingredient.find([params[:id]])
+    respond_to do |f|
+      f.json { render json: @ingredient }
+    end
   end
 
   def new
@@ -24,7 +28,7 @@ class IngredientsController < ApplicationController
   def destroy
 
   end
-  
+
   def delete_item
     item = Ingredient.find(params[:id])
     current_user.items.delete(item)

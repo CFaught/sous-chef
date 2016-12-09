@@ -10,47 +10,22 @@
 
 </ul>
 <%= javascript_tag do %>
-  var currentUserId = <%= current_user.id %>;
+  var user = <%= current_user.to_json.html_safe %>
+  var favorites = <%= current_user.favorites.to_json.html_safe %>
+  user.favorites = favorites;
+  var currentUser = new User(user);
 <% end %>
-<script type="text/javascript">
-  $(document).ready(function() {
-    var currentUser, header;
-    var favoriteIds = [];
 
-    $.get('/users/' + currentUserId + '/favorites_data').done(function(response) {
-      currentUser = response;
-      for ( element of currentUser.favorites ) {
-       favoriteIds.push(element.id);
-      }
-    }); // end current_user favorites ajax
+<script id="index-template" type="text/x-handlebars-template">
 
-
-    $.get('/recipes.json').done(function(data) {
-      header = '';
-      for (var index in data) {
-        header += '<div class="row-fluid">' +
-                       '<li class="list-group-item" style="height:50px;">' +
-                          '<div class="col-md-8">' +
-                            '<a href="/recipes/' + data[index].id + '" id="' + data[index].id + '" class="js-recipe-show">' + data[index].title + '</a>' +
-                          '</div>'
-        if (currentUser) {
-          if (favoriteIds.includes(data[index].id)) {
-            header  +=  '<div class="col-md-4">' +
-                          '<a href="/recipes/' + data[index].id + '/unfavorite">' + "Unfavorite" + '</a>' +
-                        '</div>'
-          } else {
-            header  +=  '<div class="col-md-4">' +
-                          '<a href="/recipes/' + data[index].id + '/favorite">' + "Favorite" + '</a>' +
-                        '</div>'
-          }
-        }
-      }
-
-      $('.list-group').html(
-            header +
-          '</li>' +
-        '</div>'
-      )
-    }); // end recipes index ajax
-  });
+  <li class="list-group-item" style="height:50px;">
+    <div class="col-md-8">
+      <a href="/recipes/{{id}}" id="{{id}}">{{title}}</a>
+    </div>
+    <div class="col-md-4">
+      <a href="/recipes/{{id}}/{{fav}}">{{fav}}</a>
+    </div>
+  </li>
 </script>
+
+<%= javascript_include_tag 'recipe' %>
