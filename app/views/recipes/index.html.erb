@@ -1,0 +1,28 @@
+<h1>Welcome!</h1>
+<h2>Browse Recipes:</h2>
+
+<%= render "filter" %>
+
+<ul class="list-group">
+
+</ul>
+<%= javascript_tag do %>
+  var user = <%= current_user.to_json.html_safe %>
+  var favorites = <%= current_user.favorites.to_json.html_safe %>
+  user.favorites = favorites;
+  var currentUser = new User(user);
+<% end %>
+
+<script id="index-template" type="text/x-handlebars-template">
+
+  <li class="list-group-item" style="height:50px;">
+    <div class="col-md-8">
+      <a href="/recipes/{{id}}" id="{{id}}">{{title}}</a>
+    </div>
+    <div class="col-md-4">
+      <a href="/recipes/{{id}}/{{fav}}">{{fav}}</a>
+    </div>
+  </li>
+</script>
+
+<%= javascript_include_tag 'recipe' %>
