@@ -9,8 +9,8 @@ function Recipe(attributes) {
 var ajaxResponse = function(data) {
   var liString = "";
 
-  for (recipe of data) {
-    var tempRecipe = new Recipe(recipe);
+  for (var i = 0; i < data.length; i++) {
+    var tempRecipe = new Recipe(data[i]);
     if (currentUser.fav_ids().includes(tempRecipe.id)) {
       tempRecipe.fav = "unfavorite";
     } else {

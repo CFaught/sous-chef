@@ -9,5 +9,5 @@ function User(attributes) {
         return fav["id"];
       });
     }
-  };
+  }
 }
